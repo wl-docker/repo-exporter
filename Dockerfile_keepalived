@@ -10,5 +10,7 @@ RUN yum install yum-plugin-downloadonly yum-utils device-mapper-persistent-data 
     && rm -rf /var/cache/yum
     
 From scratch
+
+ENV SOFT_NAME=keepalived
 # copy file from the first stage
 COPY --from=builder /data/$SOFT_NAME.tar.gz /$SOFT_NAME.tar.gz
