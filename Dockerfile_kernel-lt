@@ -1,0 +1,13 @@
+FROM centos:7 AS builder
+RUN yum install yum-plugin-downloadonly yum-utils device-mapper-persistent-data lvm2 createrepo -y \
+    && yum install https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm -y \
+    && rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org \ 
+    && yum -y --enablerepo=elrepo-kernel install --downloadonly --downloaddir=/data/kernel-lt kernel-lt.x86_64 kernel-lt-devel.x86_64\
+    && createrepo /data/kernel-lt \
+    && tar zcvf /data/kernel-lt.tar.gz /data/kernel-lt \
+    && rm -rf /data/kernel-lt \
+    && rm -rf /var/cache/yum
+    
+From alpine
+# copy file from the first stage
+COPY --from=builder /data/kernel-lt.tar.gz /kernel-lt.tar.gz
