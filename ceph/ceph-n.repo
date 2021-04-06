@@ -1,0 +1,8 @@
+[ceph]
+name=ceph
+baseurl=https://download.ceph.com/rpm-nautilus/el7/noarch/
+gpgcheck=0
+[ceph-noarch]
+name=cephnoarch
+baseurl=https://download.ceph.com/rpm-nautilus/el7/x86_64/
+gpgcheck=0
