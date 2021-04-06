@@ -2,7 +2,8 @@ FROM centos:7 AS builder
 
 ENV SOFT_NAME=ceph-cli
 
-RUN ADD ceph/ceph-n.repo /etc/etc/yum.repos.d/
+ADD ceph/ceph-n.repo /etc/etc/yum.repos.d/
+
 RUN yum install yum-plugin-downloadonly yum-utils device-mapper-persistent-data lvm2 createrepo -y \
     && yum install --downloadonly --downloaddir=/data/$SOFT_NAME ceph-common \
     && createrepo /data/$SOFT_NAME \
