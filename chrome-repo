@@ -1,0 +1,18 @@
+  
+FROM centos:7 AS builder
+
+ENV SOFT_NAME=chrome
+
+RUN yum install yum-plugin-downloadonly yum-utils device-mapper-persistent-data lvm2 createrepo -y \
+    && yum install https://extras.getpagespeed.com/release-el7-latest.rpm \
+    && yum install --downloadonly --downloaddir=/data/$SOFT_NAME google-chrome-stable \
+    && createrepo /data/$SOFT_NAME \
+    && tar zcvf /data/$SOFT_NAME.tar.gz /data/$SOFT_NAME \
+    && rm -rf /data/$SOFT_NAME \
+    && rm -rf /var/cache/yum
+    
+From alpine
+
+ENV SOFT_NAME=haproxy
+# copy file from the first stage
+COPY --from=builder /data/$SOFT_NAME.tar.gz /$SOFT_NAME.tar.gz
