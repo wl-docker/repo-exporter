@@ -2,7 +2,7 @@
 FROM centos:7 AS builder
 RUN yum install yum-plugin-downloadonly yum-utils device-mapper-persistent-data lvm2 createrepo -y \
     && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \ 
-    && yum install --downloadonly --downloaddir=/data/docker-ce docker-ce-19.03.ce \
+    && yum install --downloadonly --downloaddir=/data/docker-ce docker-ce-19.03.8-3.el7 \
     && createrepo /data/docker-ce \
     && tar zcvf /data/docker-ce-19.03.tar.gz /data/docker-ce \
     && rm -rf /data/docker-ce \
