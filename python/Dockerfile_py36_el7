@@ -1,0 +1,17 @@
+FROM centos:7 AS builder
+
+RUN yum install yum-plugin-downloadonly yum-utils device-mapper-persistent-data lvm2 createrepo -y \
+    && yum install --downloadonly --downloaddir=/data/python python36 python36-pip python36-devel \
+    && createrepo /data/python \
+    && tar zcvf /data/python.tar.gz /data/python \
+    && rm -rf /data/python \
+    && yum install -y python36 python36-pip python36-devel \
+    && pip3 install --upgrade pip \
+    && pip3 download -d /data/pip -r requirement.txt \
+    && tar zcvf /data/pip.tar.gz /data/pip \
+    && rm -rf /var/cache/yum
+    
+From alpine
+# copy file from the first stage
+COPY --from=builder /data/python.tar.gz /python.tar.gz
+COPY --from=builder /data/pip.tar.gz /pip.tar.gz
