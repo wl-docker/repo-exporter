@@ -10,8 +10,9 @@ RUN yum install yum-plugin-downloadonly yum-utils device-mapper-persistent-data 
     && pip3 download -d /data/pip -r requirement.txt \
     && tar zcvf /data/pip.tar.gz /data/pip \
     && rm -rf /var/cache/yum
-    
+   
 From alpine
 # copy file from the first stage
 COPY --from=builder /data/python.tar.gz /python.tar.gz
 COPY --from=builder /data/pip.tar.gz /pip.tar.gz
+ADD requirement.txt /
