@@ -17,3 +17,4 @@ From alpine
 COPY --from=builder /data/python.tar.gz /python.tar.gz
 COPY --from=builder /data/pip.tar.gz /pip.tar.gz
 COPY --from=builder /requirement.txt /requirement.txt
+COPY --from=builder /usr/bin/pip3 /pip3
